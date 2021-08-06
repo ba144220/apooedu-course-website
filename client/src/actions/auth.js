@@ -23,8 +23,8 @@ export const signup = async (formData, history) => {
         const { data } = await api.signUp(formData);
 
         //dispatch({ type: AUTH, data });
-        history.push("/leaderboard");
         localStorage.setItem("profile", JSON.stringify(data));
+        history.push("/leaderboard");
         return data;
     } catch (error) {
         console.log(error);

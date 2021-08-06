@@ -1,6 +1,6 @@
 export const USER = {
     USER: "USER",
-    USER: "ADMIN",
+    ADMIN: "ADMIN",
 };
 export const SUBMISSION_STATUS = {
     AC: "AC",

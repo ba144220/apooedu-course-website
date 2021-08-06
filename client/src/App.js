@@ -1,11 +1,18 @@
 import React from "react";
+import { ThemeProvider } from "@material-ui/core";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+
+import theme from "./theme";
+
 import Auth from "./components/Auth/Auth";
 
 const App = () => {
     return (
-        <div>
-            <Auth />
-        </div>
+        <ThemeProvider theme={theme}>
+            <BrowserRouter>
+                <Auth />
+            </BrowserRouter>
+        </ThemeProvider>
     );
 };
 

@@ -27,13 +27,13 @@ function Auth() {
     // const dispatch = useDispatch();
     const history = useHistory();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (isSignup) {
-            signup(formData, history);
+            await signup(formData, history);
         } else {
-            signin(formData, history);
+            await signin(formData, history);
         }
     };
     const handleChange = (e) => {
