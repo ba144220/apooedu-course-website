@@ -7,6 +7,7 @@ import { promisify } from "util";
 import cheerio from "cheerio";
 
 import UserModel from "../models/userModel.js";
+import dateString from "../utils/dateString.js";
 
 const readFile = promisify(fs.readFile);
 
@@ -91,33 +92,6 @@ export const signup = async (req, res) => {
             lastName: lastName,
         });
 
-        // get expire time
-        let date_ob = new Date();
-
-        date_ob.setTime(date_ob.getTime() + 60 * 60 * 1000);
-
-        // current date
-        // adjust 0 before single digit date
-        let date = ("0" + date_ob.getDate()).slice(-2);
-
-        // current month
-        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-
-        // current year
-        let year = date_ob.getFullYear();
-
-        // current hours
-        let hours = date_ob.getHours();
-
-        // current minutes
-        let minutes = date_ob.getMinutes();
-
-        // current seconds
-        let seconds = date_ob.getSeconds();
-        const expireTime =
-            year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
-        console.log(expireTime);
-
         // email confirmation token
         jwt.sign(
             {
@@ -134,7 +108,7 @@ export const signup = async (req, res) => {
                 const $ = cheerio.load(template);
 
                 $("#confirmation-button").attr("href", url);
-                $("#valid-till").text("*認證到期時間：" + expireTime);
+                $("#valid-till").text("*認證到期時間：" + dateString(1));
 
                 transporter.sendMail({
                     to: newUser.email,
