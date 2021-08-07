@@ -1,11 +1,17 @@
 import { createTheme } from "@material-ui/core";
 
 export default createTheme({
+    mixins: {
+        toolbar: {
+            minHeight: "54px",
+        },
+    },
+
     typography: {
-        fontFamily: "Quicksand",
-        fontWeightLight: 400,
-        fontWeightRegular: 500,
-        fontWeightMedium: 600,
-        fontWeightBold: 700,
+        fontFamily: "Noto Sans TC",
+        fontWeightLight: 200,
+        fontWeightRegular: 300,
+        fontWeightMedium: 400,
+        fontWeightBold: 500,
     },
 });

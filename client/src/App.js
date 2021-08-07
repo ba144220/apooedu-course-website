@@ -1,16 +1,36 @@
 import React from "react";
-import { ThemeProvider } from "@material-ui/core";
+import { ThemeProvider, Button } from "@material-ui/core";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import theme from "./theme";
 
-import Auth from "./components/Auth/Auth";
+import Auth from "./containers/Auth/Auth";
+import Layout from "./containers/Layout/Layout";
+import ExploreCourses from "./containers/ExploreCourses/ExploreCourses";
+import MyCourses from "./containers/MyCourses/MyCourses";
+import CodingProblems from "./containers/CodingProblems/CodingProblems";
+import CodingContests from "./containers/CodingContests/CodingContests";
 
 const App = () => {
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <Auth />
+                <Switch>
+                    <Route exact path="/auth" component={Auth} />
+                    <Route exact path="/test">
+                        <Button color="secondary" variant="outlined" onClick={() => console.log()}>
+                            TEST
+                        </Button>
+                    </Route>
+                    <Layout>
+                        <Switch>
+                            <Route exact path="/explore-courses" component={ExploreCourses} />
+                            <Route exact path="/my-courses" component={MyCourses} />
+                            <Route exact path="/coding-problems" component={CodingProblems} />
+                            <Route exact path="/coding-contests" component={CodingContests} />
+                        </Switch>
+                    </Layout>
+                </Switch>
             </BrowserRouter>
         </ThemeProvider>
     );

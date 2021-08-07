@@ -23,7 +23,6 @@ const dateString = (expireHour) => {
     // current seconds
     let seconds = ("0" + date_ob.getSeconds()).slice(-2);
 
-    console.log(expireTime);
     return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
 };
 

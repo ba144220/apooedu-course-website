@@ -142,7 +142,7 @@ export const accountConfirmation = async (req, res) => {
         updatedUser.confirmed = true;
         await UserModel.findByIdAndUpdate(id, updatedUser);
         console.log("成功認證");
-        res.redirect("http://localhost:3000/");
+        res.redirect("http://localhost:3000/auth");
     } catch (e) {
         res.status(500).json({ message: "認證發生錯誤" });
         console.log("ERROR at controllers/user.js/accountConfirmation");
