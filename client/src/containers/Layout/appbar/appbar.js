@@ -89,8 +89,8 @@ const Appbar = (props) => {
 
                     <ApooEduLogo />
 
-                    {!isSmallScreen && (
-                        <div style={{ marginLeft: "15px", margin: "auto" }}>
+                    {!isSmallScreen ? (
+                        <div style={{ margin: "auto", marginLeft: "15px" }}>
                             {menuItems.map(({ text, path, active }) => (
                                 <Button
                                     variant="text"
@@ -103,6 +103,8 @@ const Appbar = (props) => {
                                 </Button>
                             ))}
                         </div>
+                    ) : (
+                        <div style={{ margin: "auto", marginLeft: "15px" }}></div>
                     )}
 
                     <Popover

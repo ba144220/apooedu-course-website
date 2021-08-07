@@ -1,11 +1,31 @@
 import React from "react";
 
-import useStyles from "./styles";
-
 import CustomAppbar from "./appbar/appbar";
 
 //import CustomDrawer from "./customDrawer/customDrawer";
 //import { Container, Grow, Paper, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) => ({
+    page: {
+        backgroundColor: "rgba(0,0,0,0)",
+        width: "100%",
+        margin: "0",
+        padding: "0px",
+        [theme.breakpoints.up("sm")]: {
+            height: "100%",
+        },
+    },
+
+    root: {
+        display: "flex",
+        height: "100%",
+    },
+
+    toolbar: theme.mixins.toolbar,
+}));
 
 const Layout = ({ children }) => {
     const classes = useStyles();
