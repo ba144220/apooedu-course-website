@@ -31,7 +31,7 @@ function Auth() {
         e.preventDefault();
 
         if (isSignup) {
-            await signup(formData, history);
+            await signup(formData, history, () => setIsSignup(false));
         } else {
             await signin(formData, history);
         }

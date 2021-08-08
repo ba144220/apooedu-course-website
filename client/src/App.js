@@ -8,7 +8,7 @@ import Auth from "./containers/Auth/Auth";
 import Layout from "./containers/Layout/Layout";
 import ExploreCourses from "./containers/ExploreCourses/ExploreCourses";
 import MyCourses from "./containers/MyCourses/MyCourses";
-import CodingProblems from "./containers/CodingProblems/CodingProblems";
+import CodingProblem from "./containers/CodingProblem/CodingProblem";
 import CodingContests from "./containers/CodingContests/CodingContests";
 import MarkdownDisplay from "./components/markdownDisplay";
 
@@ -27,7 +27,7 @@ const App = () => {
                         <Switch>
                             <Route exact path="/explore-courses" component={ExploreCourses} />
                             <Route exact path="/my-courses" component={MyCourses} />
-                            <Route exact path="/coding-problems" component={CodingProblems} />
+                            <Route exact path="/coding-problems" component={CodingProblem} />
                             <Route exact path="/coding-contests" component={CodingContests} />
                         </Switch>
                     </Layout>

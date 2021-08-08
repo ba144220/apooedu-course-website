@@ -32,5 +32,8 @@ export default createTheme({
             dark: amber[600],
             deepDark: amber[900],
         },
+        background: {
+            default: "#f9f9f9",
+        },
     },
 });

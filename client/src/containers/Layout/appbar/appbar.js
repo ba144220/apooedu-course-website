@@ -38,7 +38,7 @@ const Appbar = (props) => {
 
     const logout = () => {
         //dispatch({ type: "LOGOUT" });
-        //history.push("/auth");
+        history.push("/explore-courses");
         localStorage.clear();
         setUser(null);
     };

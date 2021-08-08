@@ -8,23 +8,27 @@ export const signin = async (formData, history) => {
         localStorage.setItem("profile", JSON.stringify(data));
 
         //dispatch({ type: AUTH, data });
-        history.push("/leaderboard");
+        history.push("/explore-courses");
+
         return data;
     } catch (error) {
         console.log(error);
         if (error?.response?.data?.message) {
+            alert(error.response.data.message);
             return error.response.data.message;
         }
     }
 };
-export const signup = async (formData, history) => {
+export const signup = async (formData, history, callback) => {
     try {
         // sign up the user
         const { data } = await api.signUp(formData);
 
         //dispatch({ type: AUTH, data });
-        localStorage.setItem("profile", JSON.stringify(data));
-        history.push("/leaderboard");
+        //localStorage.setItem("profile", JSON.stringify(data));
+
+        //history.push("/auth");
+        callback();
         return data;
     } catch (error) {
         console.log(error);

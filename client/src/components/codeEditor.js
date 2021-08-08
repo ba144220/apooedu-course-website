@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2),
     },
     toolbar: {
-        minHeight: theme.mixins.secondaryToolbar.minHeight,
+        height: theme.mixins.secondaryToolbar.minHeight,
         padding: "0px",
         display: "flex",
         alignContent: "center",
@@ -81,7 +81,7 @@ const CodeEditor = () => {
             <AceEditor
                 className={classes.ace}
                 style={{
-                    width: "100%",
+                    width: "calc(100% - 2px)",
                     margin: "0px",
                     height: "calc(100% - 42px)",
                     border: "1px solid #e8e8e8",

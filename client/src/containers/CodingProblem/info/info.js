@@ -8,6 +8,8 @@ import Box from "@material-ui/core/Box";
 import { green } from "@material-ui/core/colors";
 import MarkdownDisplay from "../../../components/markdownDisplay";
 import { Paper } from "@material-ui/core";
+import Leaderboard from "./LeaderBoard/Leaderboard";
+import SubmitResults from "./SubmitResults/SubmitResults";
 
 const AntTabs = withStyles((theme) => ({
     root: {
@@ -89,17 +91,23 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    rootForTab: {
         flexGrow: 1,
         width: "100%",
-        backgroundColor: theme.palette.background.paper,
 
+        backgroundColor: theme.palette.background.default,
         height: "100%",
     },
+    root: {
+        backgroundColor: "yellow",
+        height: "100%",
+        position: "relative",
+    },
     tabPanel: {
-        backgroundColor: "white",
-        height: `calc(100% - ${theme.mixins.secondaryToolbar.minHeight} )`,
+        backgroundColor: "green",
+        height: `calc(100% + -${theme.mixins.secondaryToolbar.minHeight} )`,
         borderRight: `1px solid ${theme.palette.border}`,
+        borderBottom: `1px solid ${theme.palette.border}`,
         position: "relative",
         overflow: "scroll",
     },
@@ -120,6 +128,22 @@ const useStyles = makeStyles((theme) => ({
         minWidth: `25%`,
         borderBottom: `1px solid ${theme.palette.border}`,
     },
+    body: {
+        backgroundColor: "pink",
+        position: "absolute",
+        top: "0px",
+        bottom: theme.mixins.toolbar.minHeight,
+        left: "0px",
+        right: "0px",
+    },
+    footer: {
+        backgroundColor: "purple",
+        height: theme.mixins.toolbar.minHeight,
+        position: "absolute",
+        bottom: "0px",
+        left: "0px",
+        right: "0px",
+    },
 }));
 
 export default function Info() {
@@ -132,50 +156,64 @@ export default function Info() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default" elevation={0} className={classes.appbar}>
-                <AntTabs
-                    value={value}
-                    onChange={handleChange}
-                    variant="standard"
-                    scrollButtons="auto"
-                    aria-label="scrollable auto tabs example"
-                    TabIndicatorProps={{
-                        style: {
-                            display: "none",
-                        },
-                    }}
-                >
-                    <AntTab disableRipple label="題目說明" {...a11yProps(0)} />
-                    <AntTab disableRipple label="解答" {...a11yProps(1)} disabled />
-                    <AntTab disableRipple label="討論區" {...a11yProps(2)} disabled />
-                    <AntTab disableRipple label="提交紀錄" {...a11yProps(3)} />
-                    <AntTab disableRipple label="排行榜" {...a11yProps(4)} />
-                    <AntTab
-                        disableRipple
-                        label=""
-                        {...a11yProps(4)}
-                        className={classes.tabDisabled}
-                        disabled
-                    />
-                </AntTabs>
-            </AppBar>
-            <TabPanel value={value} index={0}>
-                <Paper elevation={0} className={classes.paper}>
-                    <MarkdownDisplay />
-                </Paper>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                解答
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                討論區
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-                提交紀錄
-            </TabPanel>
-            <TabPanel value={value} index={4}>
-                排行榜
-            </TabPanel>
+            <div className={classes.body}>
+                <div className={classes.rootForTab}>
+                    <AppBar
+                        position="static"
+                        color="default"
+                        elevation={0}
+                        className={classes.appbar}
+                    >
+                        <AntTabs
+                            value={value}
+                            onChange={handleChange}
+                            variant="standard"
+                            scrollButtons="auto"
+                            aria-label="scrollable auto tabs example"
+                            TabIndicatorProps={{
+                                style: {
+                                    display: "none",
+                                },
+                            }}
+                        >
+                            <AntTab disableRipple label="題目說明" {...a11yProps(0)} />
+                            <AntTab disableRipple label="解答" {...a11yProps(1)} disabled />
+                            <AntTab disableRipple label="討論區" {...a11yProps(2)} disabled />
+                            <AntTab disableRipple label="提交紀錄" {...a11yProps(3)} />
+                            <AntTab disableRipple label="排行榜" {...a11yProps(4)} />
+                            <AntTab
+                                disableRipple
+                                label=""
+                                {...a11yProps(4)}
+                                className={classes.tabDisabled}
+                                disabled
+                            />
+                        </AntTabs>
+                    </AppBar>
+                    <TabPanel value={value} index={0}>
+                        <Paper elevation={0} className={classes.paper}>
+                            <MarkdownDisplay />
+                        </Paper>
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        解答
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                        討論區
+                    </TabPanel>
+                    <TabPanel value={value} index={3}>
+                        <Paper elevation={0} className={classes.paper}>
+                            <SubmitResults />
+                        </Paper>
+                    </TabPanel>
+                    <TabPanel value={value} index={4}>
+                        <Paper elevation={0} className={classes.paper}>
+                            <Leaderboard />
+                        </Paper>
+                    </TabPanel>
+                </div>
+            </div>
+            <div className={classes.footer}></div>
         </div>
     );
 }
