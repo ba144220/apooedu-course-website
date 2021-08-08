@@ -146,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Info() {
+export default function Info({ problem }) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -192,7 +192,7 @@ export default function Info() {
                     </AppBar>
                     <TabPanel value={value} index={0}>
                         <Paper elevation={0} className={classes.paper}>
-                            <MarkdownDisplay />
+                            <MarkdownDisplay problem={problem} />
                         </Paper>
                     </TabPanel>
                     <TabPanel value={value} index={1}>

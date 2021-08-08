@@ -9,9 +9,11 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-// export const fetchTests = () => API.get("/tests");
-// export const createTest = (newTest) => API.post("/tests", newTest);
-// export const deleteTest = (id) => API.delete(`/tests/${id}`);
+export const fetchCodingProblems = () => API.get("/coding-problems");
+export const getCodingProblem = (id) => API.get(`/coding-problems/${id}`);
+export const createCodingProblem = (newCodingProblem) =>
+    API.post("/coding-problems", newCodingProblem);
+export const deleteCodingProblem = (id) => API.delete(`/coding-problems/${id}`);
 
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);

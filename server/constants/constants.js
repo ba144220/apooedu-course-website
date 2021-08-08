@@ -10,3 +10,9 @@ export const SUBMISSION_STATUS = {
     MLE: "MLE",
     RE: "RE",
 };
+
+export const DIFFICULTY = {
+    EASY: "EASY",
+    MEDIUM: "MEDIUM",
+    HARD: "HARD",
+};

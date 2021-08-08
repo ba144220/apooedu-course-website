@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, FormControl, InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
 import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
 
@@ -39,24 +39,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CodeEditor = () => {
+const CodeEditor = ({ code, setCode, problem }) => {
     const classes = useStyles();
-    //   const dispatch = useDispatch();
-    const user = JSON.parse(localStorage.getItem("profile"));
 
-    const [testData, setTestData] = useState({
-        code: "def add(a,b):\n    #todos \n\n    return",
-    });
-
-    const handleSubmit = async () => {
-        // dispatch(
-        //     createTest({
-        //         ...testData,
-        //         lastName: user?.result?.lastName,
-        //         firstName: user?.result?.firstName,
-        //     })
-        // );
-    };
+    useEffect(() => {
+        console.log(problem.template);
+        setCode(problem.template);
+    }, []);
 
     return (
         <>
@@ -89,8 +78,8 @@ const CodeEditor = () => {
                 placeholder={"請輸入程式碼"}
                 mode="python"
                 theme="tomorrow"
-                value={testData.code}
-                onChange={(c) => setTestData({ ...testData, code: c })}
+                value={code}
+                onChange={(c) => setCode(c)}
                 fontSize={14}
                 showPrintMargin={true}
                 showGutter={true}
@@ -103,16 +92,6 @@ const CodeEditor = () => {
                     tabSize: 4,
                 }}
             />
-            {/* <Button
-                className={classes.submitBtn}
-                variant="contained"
-                disableElevation
-                color="primary"
-                endIcon={<PublishRoundedIcon />}
-                onClick={() => handleSubmit()}
-            >
-                繳交程式碼
-            </Button> */}
         </>
     );
 };

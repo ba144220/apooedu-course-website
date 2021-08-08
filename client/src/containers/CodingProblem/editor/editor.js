@@ -42,14 +42,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Editor = () => {
+const Editor = ({ problem }) => {
     const classes = useStyles();
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+    const [code, setCode] = useState("");
 
     return (
         <div className={classes.root}>
             <div className={classes.body}>
-                <CodeEditor />
+                {problem ? (
+                    <CodeEditor code={code} setCode={setCode} problem={problem} />
+                ) : (
+                    <p>running...</p>
+                )}
             </div>
             <div className={classes.footer}>
                 <Button variant="outlined" color="secondary" disabled className={classes.run}>
