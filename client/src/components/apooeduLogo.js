@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     text: {
         marginLeft: theme.spacing(2),
         margin: "auto",
-        color: "green",
+        color: theme.palette.primary.deepDark,
     },
 }));
 

@@ -2,9 +2,10 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import CodeEditor from "./editor/editor";
+import CodeEditor from "../../components/codeEditor";
 import Info from "./info/info";
 import { Container } from "@material-ui/core";
+import MarkdownDisplay from "../../components/markdownDisplay";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "0px",
         height: "100%",
         textAlign: "center",
-        //borderRadius: "0px",
+        borderRadius: "0px",
         color: theme.palette.text.secondary,
         backgroundColor: theme.palette.background.default,
     },

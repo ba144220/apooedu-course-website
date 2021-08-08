@@ -4,49 +4,51 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { green } from "@material-ui/core/colors";
-
-const TABS_HEIGHT = "40px";
+import MarkdownDisplay from "../../../components/markdownDisplay";
+import { Paper } from "@material-ui/core";
 
 const AntTabs = withStyles((theme) => ({
-    indicator: {
-        backgroundColor: theme.palette.background.paper,
-    },
     root: {
-        minHeight: TABS_HEIGHT,
+        backgroundColor: theme.palette.background.default,
+
+        minHeight: theme.mixins.secondaryToolbar.minHeight,
     },
 }))(Tabs);
 
 const AntTab = withStyles((theme) => ({
     root: {
         textTransform: "none",
-        minWidth: "20%",
-        minHeight: TABS_HEIGHT,
-        borderBottom: "1px solid #e8e8e8",
+        minWidth: "15%",
+        minHeight: theme.mixins.secondaryToolbar.minHeight,
+        borderBottom: `1px solid ${theme.palette.border}`,
         backgroundColor: theme.palette.background.default,
-
+        transition: "color 0.2s",
+        color: "#666666",
         "&:hover": {
-            color: green[300],
-
+            color: theme.palette.secondary.main,
             opacity: 1,
         },
         "&$selected": {
-            color: green[500],
+            color: theme.palette.secondary.dark,
             backgroundColor: "white",
             fontWeight: theme.typography.fontWeightMedium,
 
-            borderLeft: "1px solid #e8e8e8",
-            borderRight: "1px solid #e8e8e8",
-            borderBottom: "none",
+            borderLeft: `1px solid ${theme.palette.border}`,
+            borderRight: `1px solid ${theme.palette.border}`,
+            borderBottom: "1px solid #ffffff",
         },
         "&:focus": {
+            color: theme.palette.secondary.dark,
             backgroundColor: "white",
-            color: green[500],
-            borderLeft: "1px solid #e8e8e8",
-            borderRight: "1px solid #e8e8e8",
-            borderBottom: "none",
+            borderLeft: `1px solid ${theme.palette.border}`,
+            borderRight: `1px solid ${theme.palette.border}`,
+            borderBottom: "1px solid #ffffff",
+        },
+        "&:disabled": {
+            opacity: 0.7,
+            color: "#bbbbbb",
         },
     },
     selected: {},
@@ -59,14 +61,14 @@ function TabPanel(props) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`scrollable-auto-tabpanel-${index}`}
-            aria-labelledby={`scrollable-auto-tab-${index}`}
+            id={`scrollable-prevent-tabpanel-${index}`}
+            aria-labelledby={`scrollable-prevent-tab-${index}`}
             {...other}
             className={classes.tabPanel}
         >
             {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
+                <Box p={0} className={classes.box}>
+                    {children}
                 </Box>
             )}
         </div>
@@ -96,8 +98,27 @@ const useStyles = makeStyles((theme) => ({
     },
     tabPanel: {
         backgroundColor: "white",
-        height: `calc(100% - ${TABS_HEIGHT} )`,
-        borderRight: "1px solid #e4e4e4",
+        height: `calc(100% - ${theme.mixins.secondaryToolbar.minHeight} )`,
+        borderRight: `1px solid ${theme.palette.border}`,
+        position: "relative",
+        overflow: "scroll",
+    },
+    box: {
+        height: `100%`,
+        margin: "0px",
+    },
+    paper: {
+        height: "100%",
+        width: "100%",
+        position: "absolute",
+        left: "0",
+        top: "0",
+        borderRadius: "0",
+    },
+
+    tabDisabled: {
+        minWidth: `25%`,
+        borderBottom: `1px solid ${theme.palette.border}`,
     },
 }));
 
@@ -111,7 +132,7 @@ export default function Info() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default" elevation="0" className={classes.appbar}>
+            <AppBar position="static" color="default" elevation={0} className={classes.appbar}>
                 <AntTabs
                     value={value}
                     onChange={handleChange}
@@ -124,35 +145,24 @@ export default function Info() {
                         },
                     }}
                 >
+                    <AntTab disableRipple label="題目說明" {...a11yProps(0)} />
+                    <AntTab disableRipple label="解答" {...a11yProps(1)} disabled />
+                    <AntTab disableRipple label="討論區" {...a11yProps(2)} disabled />
+                    <AntTab disableRipple label="提交紀錄" {...a11yProps(3)} />
+                    <AntTab disableRipple label="排行榜" {...a11yProps(4)} />
                     <AntTab
                         disableRipple
-                        label="題目說明"
-                        {...a11yProps(0)}
-                        className={classes.tab}
-                    />
-                    <AntTab disableRipple label="解答" {...a11yProps(1)} className={classes.tab} />
-                    <AntTab
-                        disableRipple
-                        label="討論區"
-                        {...a11yProps(2)}
-                        className={classes.tab}
-                    />
-                    <AntTab
-                        disableRipple
-                        label="提交紀錄"
-                        {...a11yProps(3)}
-                        className={classes.tab}
-                    />
-                    <AntTab
-                        disableRipple
-                        label="排行榜"
+                        label=""
                         {...a11yProps(4)}
-                        className={classes.tab}
+                        className={classes.tabDisabled}
+                        disabled
                     />
                 </AntTabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                題目說明
+                <Paper elevation={0} className={classes.paper}>
+                    <MarkdownDisplay />
+                </Paper>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 解答

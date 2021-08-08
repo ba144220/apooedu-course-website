@@ -79,11 +79,11 @@ const Appbar = (props) => {
                         <IconButton
                             edge="start"
                             className={classes.menuButton}
-                            color="inherit"
+                            color="primary"
                             aria-label="menu"
                             onClick={() => setOpenDrawer(true)}
                         >
-                            <MenuRoundedIcon color="action" />
+                            <MenuRoundedIcon color="primary" />
                         </IconButton>
                     )}
 
@@ -97,6 +97,8 @@ const Appbar = (props) => {
                                     onClick={() => history.push(path)}
                                     disableRipple
                                     className={classes.textBtn}
+                                    key={text}
+                                    //color="primary"
                                     //disabled={!active}
                                 >
                                     {text}
@@ -131,6 +133,7 @@ const Appbar = (props) => {
                                 className={classes.userInfoBtn}
                                 onClick={handleClick}
                                 aria-describedby={id}
+                                color="primary"
                             >
                                 <Avatar
                                     className={
@@ -155,6 +158,7 @@ const Appbar = (props) => {
                                 variant="outlined"
                                 className={classes.loginBtn}
                                 onClick={() => history.push("/auth")}
+                                color="primary"
                             >
                                 {isSmallScreen ? "登入" : "登入/註冊帳號"}
                             </Button>

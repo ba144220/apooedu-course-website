@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeProvider, Button } from "@material-ui/core";
+import { ThemeProvider, Button, Paper, Container } from "@material-ui/core";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import theme from "./theme";
@@ -10,6 +10,7 @@ import ExploreCourses from "./containers/ExploreCourses/ExploreCourses";
 import MyCourses from "./containers/MyCourses/MyCourses";
 import CodingProblems from "./containers/CodingProblems/CodingProblems";
 import CodingContests from "./containers/CodingContests/CodingContests";
+import MarkdownDisplay from "./components/markdownDisplay";
 
 const App = () => {
     return (

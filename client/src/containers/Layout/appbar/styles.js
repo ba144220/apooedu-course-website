@@ -1,4 +1,4 @@
-import { amber, green } from "@material-ui/core/colors";
+import { amber, green, teal } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
 
 const USER_INFO_WIDTH = "190px";
@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
     appbar: {
         //width: `calc(100% - ${drawerWidth}px)`,
         width: "100%",
-        borderBottom: "1px solid #eeeeee",
+        borderBottom: `1px solid ${theme.palette.border}`,
         backgroundColor: "white",
     },
     toolbar: {
@@ -30,15 +30,17 @@ export default makeStyles((theme) => ({
     },
     textBtn: {
         minWidth: "0px",
-        marginLeft: "15px",
-        marginRight: "15px",
+        marginLeft: "10px",
+        marginRight: "10px",
         backgroundColor: "none",
-        color: "#777777",
+        color: theme.palette.primary.dark,
+        opacity: 0.8,
         transition: "0.2s",
         "&:hover": {
             //you want this to be the same as the backgroundColor above
             backgroundColor: "transparent",
-            color: "#111111",
+            color: theme.palette.primary.deepDark,
+            opacity: 1,
         },
     },
     userInfoBtn: {
@@ -47,6 +49,7 @@ export default makeStyles((theme) => ({
         borderRadius: "0px",
         width: "100%",
 
+        color: theme.palette.primary.deepDark,
         // paddingLeft: theme.spacing(3),
         // paddingRight: theme.spacing(3),
     },
@@ -61,7 +64,7 @@ export default makeStyles((theme) => ({
         margin: "auto",
         marginLeft: theme.spacing(3),
         marginRight: theme.spacing(0),
-
+        fontWeight: "normal",
         [theme.breakpoints.down("sm")]: {
             display: "none",
         },
