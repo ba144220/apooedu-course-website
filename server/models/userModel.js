@@ -10,6 +10,10 @@ const userSchema = mongoose.Schema({
     userType: { type: String, enum: USER, default: USER.USER },
     confirmed: { type: Boolean, required: true, default: false },
     id: { type: String },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 var UserModel = mongoose.model("users", userSchema);

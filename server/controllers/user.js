@@ -25,24 +25,36 @@ const transporter = nodemailer.createTransport({
 
 export const signin = async (req, res) => {
     const { email, password } = req.body;
+    const emailLower = email.toLowerCase().replace(/\s/g, "");
 
     try {
         // Get the user with that email
-        const existingUser = await UserModel.findOne({ email });
+        const existingUser = await UserModel.findOne({ email: emailLower });
 
         // Check if the user exist
         if (!existingUser) {
+            console.log("使用者不存在");
             return res.status(404).json({ message: "使用者不存在" });
         }
 
         // Check if the user has been confirmed
         if (!existingUser.confirmed) {
-            return res.status(404).json({ message: "尚未驗證電子郵件" });
+            const currentTime = new Date();
+            const createdTime = new Date(existingUser.createdAt);
+            if (createdTime.getTime() + 60 * 60 * 1000 < currentTime.getTime()) {
+                console.log("驗證已過期，請重新註冊帳號");
+                await UserModel.findByIdAndRemove(existingUser._id);
+                return res.status(404).json({ message: "驗證已過期，請重新註冊帳號" });
+            } else {
+                console.log("尚未驗證電子郵件");
+                return res.status(404).json({ message: "尚未驗證電子郵件" });
+            }
         }
 
         // Check if the password is correct
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
         if (!isPasswordCorrect) {
+            console.log("密碼錯誤");
             return res.status(400).json({ message: "密碼錯誤" });
         }
 
@@ -69,10 +81,10 @@ export const signin = async (req, res) => {
 
 export const signup = async (req, res) => {
     const { email, password, confirmPassword, firstName, lastName } = req.body;
-
+    const emailLower = email.toLowerCase().replace(/\s/g, "");
     try {
         // Get the user with that email
-        const existingUser = await UserModel.findOne({ email });
+        const existingUser = await UserModel.findOne({ email: emailLower });
         if (existingUser) {
             console.log("User already exists.");
             return res.status(404).json({ message: "此電子郵件已使用" });
@@ -86,7 +98,7 @@ export const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 12);
 
         const newUser = await UserModel.create({
-            email: email,
+            email: emailLower,
             password: hashedPassword,
             firstName: firstName,
             lastName: lastName,
