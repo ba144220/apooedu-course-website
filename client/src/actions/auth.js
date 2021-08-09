@@ -12,10 +12,10 @@ export const signin = async (formData, history) => {
 
         return data;
     } catch (error) {
-        console.log(error);
-        if (error?.response?.data?.message) {
-            alert(error.response.data.message);
-            return error.response.data.message;
+        if (error?.response?.data) {
+            //console.log(error.response.data);
+            //alert(error.response.data.message);
+            return error.response.data;
         }
     }
 };
@@ -31,11 +31,9 @@ export const signup = async (formData, history, callback) => {
         callback();
         return data;
     } catch (error) {
-        console.log(error);
-
         if (error?.response?.data?.message) {
-            alert(error.response.data.message);
-            return error.response.data.message;
+            console.log(error.response.data);
+            return error.response.data;
         }
     }
 };

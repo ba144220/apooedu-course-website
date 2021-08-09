@@ -34,7 +34,7 @@ export const signin = async (req, res) => {
         // Check if the user exist
         if (!existingUser) {
             console.log("使用者不存在");
-            return res.status(404).json({ message: "使用者不存在" });
+            return res.status(404).json({ message: "使用者不存在", type: "error" });
         }
 
         // Check if the user has been confirmed
@@ -44,10 +44,12 @@ export const signin = async (req, res) => {
             if (createdTime.getTime() + 60 * 60 * 1000 < currentTime.getTime()) {
                 console.log("驗證已過期，請重新註冊帳號");
                 await UserModel.findByIdAndRemove(existingUser._id);
-                return res.status(404).json({ message: "驗證已過期，請重新註冊帳號" });
+                return res
+                    .status(404)
+                    .json({ message: "驗證已過期，請重新註冊帳號", type: "error" });
             } else {
                 console.log("尚未驗證電子郵件");
-                return res.status(404).json({ message: "尚未驗證電子郵件" });
+                return res.status(404).json({ message: "尚未驗證電子郵件", type: "error" });
             }
         }
 
@@ -55,7 +57,7 @@ export const signin = async (req, res) => {
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
         if (!isPasswordCorrect) {
             console.log("密碼錯誤");
-            return res.status(400).json({ message: "密碼錯誤" });
+            return res.status(400).json({ message: "密碼錯誤", type: "error" });
         }
 
         // Give the token
@@ -73,7 +75,7 @@ export const signin = async (req, res) => {
 
         res.status(200).json({ result: existingUser, token });
     } catch (error) {
-        res.status(500).json({ message: "發生錯誤" });
+        res.status(500).json({ message: "發生錯誤", type: "error" });
         console.log("ERROR at controllers/user.js/signin");
         console.log(error);
     }
@@ -87,12 +89,17 @@ export const signup = async (req, res) => {
         const existingUser = await UserModel.findOne({ email: emailLower });
         if (existingUser) {
             console.log("User already exists.");
-            return res.status(404).json({ message: "此電子郵件已使用" });
+            return res.status(404).json({ message: "此電子郵件已使用", type: "error" });
+        }
+
+        if (!(firstName && lastName && email && password)) {
+            console.log("Not fill in all blanks");
+            return res.status(404).json({ message: "尚有空格未填寫", type: "error" });
         }
 
         if (password !== confirmPassword) {
             console.log("Passwords don't match");
-            return res.status(400).json({ message: "密碼不一致" });
+            return res.status(400).json({ message: "密碼不一致", type: "error" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -132,11 +139,11 @@ export const signup = async (req, res) => {
 
         console.log("Create User Successful");
 
-        res.status(200).json({ message: "註冊成功" });
+        res.status(200).json({ message: "註冊成功", type: "success" });
     } catch (error) {
         console.log("ERROR at controllers/user.js/signup");
         console.log(error);
-        res.status(500).json({ message: "發生錯誤" });
+        res.status(500).json({ message: "發生錯誤", type: "error" });
     }
 };
 
@@ -144,19 +151,19 @@ export const accountConfirmation = async (req, res) => {
     try {
         const { id } = jwt.verify(req.params.token, process.env.EMAIL_SECRET);
         if (!id) {
-            res.status(404).json({ message: "認證失敗" });
+            res.status(404).json({ message: "認證失敗", type: "error" });
         }
 
         let updatedUser = await UserModel.findById(id);
         if (!updatedUser) {
-            res.status(404).json({ message: "此帳戶已不存在" });
+            res.status(404).json({ message: "此帳戶已不存在", type: "error" });
         }
         updatedUser.confirmed = true;
         await UserModel.findByIdAndUpdate(id, updatedUser);
         console.log("成功認證");
         res.redirect("http://localhost:3000/auth");
     } catch (e) {
-        res.status(500).json({ message: "認證發生錯誤" });
+        res.status(500).json({ message: "認證發生錯誤", type: "error" });
         console.log("ERROR at controllers/user.js/accountConfirmation");
         console.log(error);
     }
