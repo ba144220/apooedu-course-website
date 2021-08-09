@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 
 import codingProblemRoutes from "./routes/codingProblems.js";
 import userRoutes from "./routes/users.js";
+import submissionRoutes from "./routes/submissions.js";
 
 const app = express();
 dotenv.config();
@@ -14,7 +15,8 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-app.use("/coding-problems", codingProblemRoutes);
+app.use("/coding-problem", codingProblemRoutes);
+app.use("/submission", submissionRoutes);
 app.use("/user", userRoutes);
 
 app.get("/", (req, res) => {

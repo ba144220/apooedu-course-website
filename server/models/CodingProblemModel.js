@@ -13,7 +13,7 @@ const problemSchema = mongoose.Schema({
 
     template: { type: String },
     judge: { type: String },
-    testData: { type: String },
+    testData: { type: Object },
 });
 
 var CodingProblemModel = mongoose.model("coding_problems", problemSchema);

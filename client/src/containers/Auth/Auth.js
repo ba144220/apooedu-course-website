@@ -24,6 +24,7 @@ function Auth() {
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
     const [formData, setFormData] = useState(initialState);
+    const [sub, setSub] = useState(false);
     // const dispatch = useDispatch();
     const history = useHistory();
 
@@ -31,7 +32,11 @@ function Auth() {
         e.preventDefault();
 
         if (isSignup) {
-            await signup(formData, history, () => setIsSignup(false));
+            setSub(true);
+            await signup(formData, history, () => {
+                setIsSignup(false);
+            });
+            setSub(false);
         } else {
             await signin(formData, history);
         }
@@ -54,7 +59,7 @@ function Auth() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography variant="h5">{isSignup ? "創建帳號" : "登入"}</Typography>
-                    <form className={classes.form} onSubmit={handleSubmit}>
+                    <div className={classes.form}>
                         <Grid container spacing={2}>
                             {isSignup && (
                                 <>
@@ -103,6 +108,9 @@ function Auth() {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            id="auth-submit-btn"
+                            onClick={handleSubmit}
+                            disabled={sub}
                         >
                             {isSignup ? "創建帳號" : "登入"}
                         </Button>
@@ -116,7 +124,7 @@ function Auth() {
                                 </Button>
                             </Grid>
                         </Grid>
-                    </form>
+                    </div>
                 </Paper>
             </Container>
         </Grow>

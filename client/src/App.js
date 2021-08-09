@@ -25,6 +25,7 @@ const App = () => {
                             TEST
                         </Button>
                     </Route>
+
                     <Layout>
                         <Switch>
                             <Route exact path="/explore-courses" component={ExploreCourses} />

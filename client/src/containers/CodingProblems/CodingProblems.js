@@ -60,9 +60,10 @@ const CodingProblems = () => {
 
     return (
         <Container>
-            {problems.map(({ title, difficulty, _id }) => (
-                <Btn title={title} key={title} difficulty={difficulty} id={_id} />
-            ))}
+            {problems &&
+                problems.map(({ title, difficulty, _id }) => (
+                    <Btn title={title} key={title} difficulty={difficulty} id={_id} />
+                ))}
         </Container>
     );
 };

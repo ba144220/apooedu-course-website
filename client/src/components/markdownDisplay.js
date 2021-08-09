@@ -16,8 +16,12 @@ export default function MarkdownDisplay({ problem }) {
     const classes = useStyles();
     return (
         <Container className={classes.container}>
-            {problem ? <h3>{problem.title}</h3> : <p>running...</p>}
-            {problem ? <MDEditor.Markdown source={problem.markdown} /> : <p>running...</p>}
+            {problem ? <h2>{problem.title}</h2> : <p>running...</p>}
+            {problem ? (
+                <MDEditor.Markdown source={"---\n" + problem.markdown} />
+            ) : (
+                <p>running...</p>
+            )}
         </Container>
     );
 }

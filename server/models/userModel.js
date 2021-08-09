@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
     phone: { type: String },
     password: { type: String, required: true },
     userType: { type: String, enum: USER, default: USER.USER },
-    confirmed: { type: Boolean, required: true, default: false },
+    confirmed: { type: Boolean, required: true, default: true },
     id: { type: String },
     createdAt: {
         type: Date,

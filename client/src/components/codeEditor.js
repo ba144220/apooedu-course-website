@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CodeEditor = ({ code, setCode, problem }) => {
+const CodeEditor = ({ code, setCode, problem = "", style = null }) => {
     const classes = useStyles();
 
     useEffect(() => {
@@ -69,18 +69,13 @@ const CodeEditor = ({ code, setCode, problem }) => {
             </div>
             <AceEditor
                 className={classes.ace}
-                style={{
-                    width: "calc(100% - 2px)",
-                    margin: "0px",
-                    height: "calc(100% - 42px)",
-                    border: "1px solid #e8e8e8",
-                }}
+                style={style}
                 placeholder={"請輸入程式碼"}
                 mode="python"
                 theme="tomorrow"
                 value={code}
                 onChange={(c) => setCode(c)}
-                fontSize={14}
+                fontSize={16}
                 showPrintMargin={true}
                 showGutter={true}
                 highlightActiveLine={true}

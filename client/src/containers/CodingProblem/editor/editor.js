@@ -51,7 +51,17 @@ const Editor = ({ problem }) => {
         <div className={classes.root}>
             <div className={classes.body}>
                 {problem ? (
-                    <CodeEditor code={code} setCode={setCode} problem={problem} />
+                    <CodeEditor
+                        code={code}
+                        setCode={setCode}
+                        problem={problem}
+                        style={{
+                            width: "calc(100% - 2px)",
+                            margin: "0px",
+                            height: "calc(100% - 42px)",
+                            border: "1px solid #e8e8e8",
+                        }}
+                    />
                 ) : (
                     <p>running...</p>
                 )}

@@ -105,7 +105,7 @@ export const signup = async (req, res) => {
         });
 
         // email confirmation token
-        jwt.sign(
+        /*jwt.sign(
             {
                 id: newUser._id,
             },
@@ -128,11 +128,11 @@ export const signup = async (req, res) => {
                     html: $.html(),
                 });
             }
-        );
+        );*/
 
         console.log("Create User Successful");
 
-        res.status(200).json({ message: "請到電子郵件認證帳號" });
+        res.status(200).json({ message: "註冊成功" });
     } catch (error) {
         console.log("ERROR at controllers/user.js/signup");
         console.log(error);

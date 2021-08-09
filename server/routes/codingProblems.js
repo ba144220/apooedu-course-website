@@ -4,7 +4,7 @@ import {
     getCodingProblem,
     createCodingProblem,
     deleteCodingProblem,
-} from "../controllers/codingProblems.js";
+} from "../controllers/codingProblem.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
