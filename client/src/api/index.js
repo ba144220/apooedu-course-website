@@ -15,5 +15,7 @@ export const createCodingProblem = (newCodingProblem) =>
     API.post("/coding-problem", newCodingProblem);
 export const deleteCodingProblem = (id) => API.delete(`/coding-problem/${id}`);
 
+export const postSubmission = (id, codeData) => API.post(`/submission/${id}`, codeData);
+
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);

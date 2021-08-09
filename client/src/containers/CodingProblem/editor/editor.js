@@ -1,5 +1,7 @@
 import { Button, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
+import { useLocation } from "react-router";
+import { postSubmission } from "../../../actions/submission";
 import CodeEditor from "../../../components/codeEditor";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,8 +46,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Editor = ({ problem }) => {
     const classes = useStyles();
+    const location = useLocation();
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
     const [code, setCode] = useState("");
+
+    const handleSubmit = async () => {
+        const id = location.pathname.split("/").reverse()[0];
+        const codeData = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            code: code,
+        };
+        const result = await postSubmission(id, codeData);
+        console.log(result);
+    };
 
     return (
         <div className={classes.root}>
@@ -75,6 +89,7 @@ const Editor = ({ problem }) => {
                     color="secondary"
                     disabled={!user}
                     className={classes.submit}
+                    onClick={handleSubmit}
                 >
                     提交程式碼
                 </Button>
