@@ -7,8 +7,7 @@ const submissionSchema = mongoose.Schema({
     lastName: String,
     exeTime: Number,
     status: {
-        type: String,
-        enum: SUBMISSION_STATUS,
+        type: Number,
     },
 
     submittedAt: {

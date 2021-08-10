@@ -2,14 +2,8 @@ import mongoose from "mongoose";
 import SubmissionModel from "../models/submissionModel.js";
 import CodingProblemModel from "../models/CodingProblemModel.js";
 import { USER, SUBMISSION_STATUS } from "../constants/constants.js";
+import { singleSubmission } from "../utils/submission.js";
 import axios from "axios";
-
-// 實現一個等待函數
-const delay = (interval) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, interval);
-    });
-};
 
 // export const getTests = async (req, res) => {
 //     try {
@@ -46,43 +40,12 @@ export const postSubmission = async (req, res) => {
             return;
         }
 
-        let get_token_options = {
-            method: "POST",
-            url: "http://140.112.21.13:2358/submissions",
-            params: { base64_encoded: "false", fields: "*" },
-            headers: {
-                "content-type": "application/json",
-            },
-            data: {
-                language_id: 71,
-                source_code: newSub.code + "\n" + problem.judge,
-            },
-        };
+        const result = await singleSubmission(newSub.code, problem.judge);
 
-        let {
-            data: { token },
-        } = await axios.request(get_token_options);
-
-        let status_id = 1;
-
-        let payload = null;
-
-        while (status_id === 1) {
-            // 等待 1 秒
-            await delay(1000);
-
-            let { data } = await axios.get(
-                `http://140.112.21.13:2358/submissions/${token}?base64_encoded=false&fields=*`
-            );
-            console.log("data");
-            status_id = data.status.id;
-            payload = data;
-        }
-
-        //newSub.exeTime = exeTime;
-        //newSub.status = status;
-        // await newSub.save();
-        res.status(201).json({ message: "上傳成功", type: "success", payload: payload });
+        newSub.exeTime = result.exeTime;
+        newSub.status = result.status;
+        await newSub.save();
+        res.status(201).json({ message: "上傳成功", type: "success", payload: result });
     } catch (error) {
         console.log("ERROR at controllers/tests.js/createTest");
         console.log(error);
