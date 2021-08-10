@@ -26,8 +26,8 @@ export const createCodingProblem = async (codingProblem) => {
         console.log(data);
         return data;
     } catch (error) {
-        console.log(error.message);
-        alert(error.message);
+        console.log(error?.response?.data?.message);
+        alert(error?.response?.data?.message);
     }
 };
 
@@ -36,6 +36,20 @@ export const deleteCodingProblem = async (id) => {
         const { data } = await api.deleteCodingProblem(id);
         console.log(data);
         alert("刪除成功");
+        return data;
+    } catch (error) {
+        console.log(error);
+        if (error?.response?.data) {
+            alert(error.response.data);
+        }
+    }
+};
+
+export const updateCodingProblem = async (id, updatedProb) => {
+    try {
+        const { data } = await api.updateCodingProblem(id, updatedProb);
+        console.log(data);
+        alert("修改成功");
         return data;
     } catch (error) {
         console.log(error);

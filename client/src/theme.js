@@ -1,5 +1,5 @@
 import { createTheme } from "@material-ui/core";
-import { amber, green, lightGreen } from "@material-ui/core/colors";
+import { amber, green } from "@material-ui/core/colors";
 
 export default createTheme({
     mixins: {
@@ -12,7 +12,7 @@ export default createTheme({
     },
 
     typography: {
-        fontFamily: "Noto Sans TC",
+        fontFamily: ["Quicksand", "Noto Sans TC"],
         fontWeightLight: 200,
         fontWeightRegular: 300,
         fontWeightMedium: 400,

@@ -1,4 +1,4 @@
-import { amber, green, teal } from "@material-ui/core/colors";
+import { amber, green } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
 
 const USER_INFO_WIDTH = "190px";

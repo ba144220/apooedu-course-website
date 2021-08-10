@@ -3,6 +3,7 @@ import { SUBMISSION_STATUS } from "../constants/constants.js";
 
 const submissionSchema = mongoose.Schema({
     creator: String,
+    problem: String,
     firstName: String,
     lastName: String,
     exeTime: Number,
@@ -12,7 +13,7 @@ const submissionSchema = mongoose.Schema({
 
     submittedAt: {
         type: Date,
-        default: new Date(),
+        default: Date.now,
     },
     code: String,
 });

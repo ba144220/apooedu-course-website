@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
-import { createCodingProblem } from "../../../actions/codingProblems";
+import { createCodingProblem, getCodingProblem } from "../../../actions/codingProblems";
 import {
-    Container,
     FormControl,
     Grid,
     InputLabel,
@@ -14,10 +13,13 @@ import {
 import CodeEditor from "../../../components/codeEditor";
 import { makeStyles } from "@material-ui/core/styles";
 import MDEditor from "@uiw/react-md-editor";
+import { useLocation, useHistory } from "react-router";
+import { updateCodingProblem } from "../../../actions/codingProblems";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        overflow: "scroll",
     },
     paper: {
         padding: theme.spacing(1),
@@ -38,19 +40,40 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
     },
 }));
-const testProblem = {
-    title: "Add Two Numbers",
-    difficulty: "EASY",
-    markdown:
-        "完成下列函式，達成將兩個數字相加的功能 \n ```python \ndef add(a,b):\n    #todos\n\n    return\n```",
-    template: "def add(a,b):\n    #todos\n\n    return",
-    judge: "if 8==add(3,5):\n    print('|AC')\nelse:\n    print('|NA')",
-};
 
 const CreateCodingProblem = () => {
     const classes = useStyles();
+
+    const [isEdit, setIsEdit] = useState(false);
+    const location = useLocation();
+    const history = useHistory();
+
+    useEffect(async () => {
+        const id = location.pathname.split("/").reverse()[0];
+
+        if (id === "create") {
+            setIsEdit(false);
+        } else {
+            try {
+                const data = await getCodingProblem(id);
+                console.log(data);
+                setTitle(data.title);
+                setJudge(data.judge);
+                setMd(data.markdown);
+                setDiff(data.difficulty);
+
+                setIsEdit(true);
+            } catch (error) {
+                console.log(error);
+                alert("找不到題目");
+                history.push("/test/create");
+            }
+        }
+        //console.log(location.pathname.split("/").reverse()[0]);
+    }, []);
+
     const [title, setTitle] = useState("");
-    const [diff, setDiff] = useState("MEDIUM");
+    const [diff, setDiff] = useState("");
     const [md, setMd] = useState("");
     const [temp, setTemp] = useState("");
     const [judge, setJudge] = useState("");
@@ -64,15 +87,27 @@ const CreateCodingProblem = () => {
             return "error";
         }
     };
-    const handleSubmit = () => {
-        createCodingProblem({
-            title: title,
-            difficulty: diff,
-            markdown: md,
-            template: temp,
-            judge: judge,
-            testData: testData,
-        }).then((data) => console.log(data));
+    const handleClick = () => {
+        const id = location.pathname.split("/").reverse()[0];
+        if (isEdit) {
+            updateCodingProblem(id, {
+                title: title,
+                difficulty: diff,
+                markdown: md,
+                template: temp,
+                judge: judge,
+                testData: testData,
+            }).then((data) => console.log(data));
+        } else {
+            createCodingProblem({
+                title: title,
+                difficulty: diff,
+                markdown: md,
+                template: temp,
+                judge: judge,
+                testData: testData,
+            }).then((data) => console.log(data));
+        }
     };
     return (
         <div className={classes.root}>
@@ -106,24 +141,14 @@ const CreateCodingProblem = () => {
                                 <option value={"HARD"}>hard</option>
                             </Select>
                         </FormControl>
-                        <Button
-                            variant="contained"
-                            disableElevation
-                            className={classes.btn}
-                            onClick={() => {
-                                console.log(JSON.parse(testData));
-                            }}
-                        >
-                            test
-                        </Button>
 
                         <Button
                             variant="contained"
                             disableElevation
                             className={classes.btn}
-                            onClick={handleSubmit}
+                            onClick={handleClick}
                         >
-                            SUBMIT
+                            {isEdit ? "update" : "submit"}
                         </Button>
                     </Paper>
                 </Grid>
@@ -133,25 +158,25 @@ const CreateCodingProblem = () => {
                     </Paper>
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography>Template</Typography>
                         <CodeEditor code={temp} setCode={setTemp} />
                     </Paper>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography>Judge</Typography>
                         <CodeEditor code={judge} setCode={setJudge} />
                     </Paper>
                 </Grid>
-                <Grid item xs={4}>
+                {/* <Grid item xs={4}>
                     <Paper className={classes.paper}>
                         <Typography>Test Data</Typography>
                         <CodeEditor code={testData} setCode={setTestData} />
                         <Typography>{jsonCheck(testData)}</Typography>
                     </Paper>
-                </Grid>
+                </Grid> */}
             </Grid>
         </div>
     );

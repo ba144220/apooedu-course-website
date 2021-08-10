@@ -6,8 +6,6 @@ import CustomAppbar from "./appbar/appbar";
 //import { Container, Grow, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-const drawerWidth = 240;
-
 const useStyles = makeStyles((theme) => ({
     page: {
         backgroundColor: "rgba(0,0,0,0)",

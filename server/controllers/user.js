@@ -156,7 +156,7 @@ export const accountConfirmation = async (req, res) => {
 
         let updatedUser = await UserModel.findById(id);
         if (!updatedUser) {
-            res.status(404).json({ message: "此帳戶已不存在", type: "error" });
+            res.status(404).json({ message: "此帳號已不存在", type: "error" });
         }
         updatedUser.confirmed = true;
         await UserModel.findByIdAndUpdate(id, updatedUser);
@@ -166,5 +166,30 @@ export const accountConfirmation = async (req, res) => {
         res.status(500).json({ message: "認證發生錯誤", type: "error" });
         console.log("ERROR at controllers/user.js/accountConfirmation");
         console.log(error);
+    }
+};
+
+export const getUsers = async (req, res) => {
+    try {
+        const users = await UserModel.find({});
+        console.log("getUsers 成功");
+        res.status(200).json(users);
+    } catch (error) {
+        console.log("getUser ERROR");
+        res.status(500).json({ message: "發生錯誤", type: "error" });
+    }
+};
+export const deleteUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await UserModel.findByIdAndRemove(id);
+        if (!user) {
+            res.status(404).json({ message: "此用戶已不存在", type: "error" });
+        }
+        console.log("deleteUser 成功");
+        res.status(200).json({ message: "成功刪除用戶", type: "success" });
+    } catch (error) {
+        console.log("getUser ERROR");
+        res.status(500).json({ message: "發生錯誤", type: "error" });
     }
 };

@@ -7,9 +7,7 @@ import {
     Toolbar,
     Typography,
     Popover,
-    Divider,
     IconButton,
-    Link,
 } from "@material-ui/core";
 import MenuRoundedIcon from "@material-ui/icons/MenuRounded";
 import ExpandLessRoundedIcon from "@material-ui/icons/ExpandLessRounded";
@@ -22,7 +20,6 @@ import useStyles from "./styles";
 
 import { USER } from "../../../constants/constants";
 import UserPopoverList from "../userPopoverList/userPopoverList";
-import CustomDrawer from "../drawer/drawer";
 import TemporaryDrawer from "../drawer/drawer";
 import ApooEduLogo from "../../../components/apooeduLogo";
 import { menuItems } from "../menuItems";

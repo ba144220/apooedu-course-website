@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -8,62 +8,46 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import useStyles from "./styles";
 
+import { useLocation } from "react-router";
+
 import LeaderboardItem from "./item/leaderboardItem";
-
-//import { getTests } from "../../actions/tests";
-//import { useDispatch, useSelector } from "react-redux";
-
-const tests = [
-    {
-        _id: "610fef8f02fc4f808c4e52e5",
-        submittedAt: 1627887784941,
-        code: "    return 10",
-        lastName: "徐",
-        firstName: "有齊",
-        creator: "6106d249d505895c0209b249",
-        exeTime: "0.0030994415283203125",
-        status: "NA",
-        __v: {
-            $numberInt: "0",
-        },
-    },
-    {
-        _id: "610fefd202fc4f808c4e52e6",
-        submittedAt: 1627887784941,
-        code: "    return a+b",
-        lastName: "徐",
-        firstName: "有齊",
-        creator: "6106d249d505895c0209b249",
-        exeTime: "0.00286102294921875",
-        status: "AC",
-        __v: {
-            $numberInt: "0",
-        },
-    },
-    {
-        _id: "610fefe602fc4f808c4e52e7",
-        submittedAt: 1627912872053,
-        code: "def add(a,b):\n\t#todos \n\n\treturn a",
-        lastName: "徐",
-        firstName: "有齊",
-        creator: "6106d249d505895c0209b249",
-        exeTime: "0",
-        status: "RTE",
-        __v: {
-            $numberInt: "0",
-        },
-    },
-];
+import { getSubmissions } from "../../../../actions/submission";
 
 const Leaderboard = () => {
     const classes = useStyles();
-    // const dispatch = useDispatch();
+    const location = useLocation();
     const user = JSON.parse(localStorage.getItem("profile"));
-    // const tests = useSelector((state) => state.tests);
+    const [submissions, setSubmissions] = useState(null);
+
+    useEffect(() => {
+        const id = location.pathname.split("/").reverse()[0];
+        getSubmissions(id).then((data) => {
+            console.log(data);
+            let ac_subs = data.payload.filter((sub) => sub.status === 3);
+            ac_subs.sort((a, b) => {
+                if (a.exeTime === b.exeTime) {
+                    let a_time = new Date(a.submittedAt);
+                    let b_time = new Date(b.submittedAt);
+                    return a_time.getTime() - b_time.getTime();
+                }
+                return a.exeTime - b.exeTime;
+            });
+            setSubmissions(ac_subs);
+        });
+    }, []);
 
     // useEffect(() => {
     //     dispatch(getTests());
     // }, [dispatch]);
+
+    // homes.sort(
+    //     function(a, b) {
+    //        if (a.city === b.city) {
+    //           // Price is only important when cities are the same
+    //           return b.price - a.price;
+    //        }
+    //        return a.city > b.city ? 1 : -1;
+    //     });
 
     return (
         <TableContainer component={Paper}>
@@ -86,9 +70,11 @@ const Leaderboard = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {tests.map((row, index) => (
-                        <LeaderboardItem row={row} index={index} key={row._id} user={user} />
-                    ))}
+                    {submissions
+                        ? submissions.map((row, index) => (
+                              <LeaderboardItem row={row} index={index} key={row._id} user={user} />
+                          ))
+                        : null}
                 </TableBody>
             </Table>
         </TableContainer>

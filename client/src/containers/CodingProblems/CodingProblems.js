@@ -62,7 +62,7 @@ const CodingProblems = () => {
         <Container>
             {problems &&
                 problems.map(({ title, difficulty, _id }) => (
-                    <Btn title={title} key={title} difficulty={difficulty} id={_id} />
+                    <Btn title={title} key={_id} difficulty={difficulty} id={_id} />
                 ))}
         </Container>
     );

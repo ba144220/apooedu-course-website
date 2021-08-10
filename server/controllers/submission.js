@@ -1,20 +1,25 @@
 import mongoose from "mongoose";
 import SubmissionModel from "../models/submissionModel.js";
 import CodingProblemModel from "../models/CodingProblemModel.js";
+import UserModel from "../models/userModel.js";
 import { USER, SUBMISSION_STATUS } from "../constants/constants.js";
 import { singleSubmission } from "../utils/submission.js";
 import axios from "axios";
 
-// export const getTests = async (req, res) => {
-//     try {
-//         const testMessages = await TestMessage.find();
-//         res.status(200).json(testMessages);
-//     } catch (error) {
-//         res.status(404).json({ message: "發生錯誤" });
-//         console.log("ERROR at controllers/tests.js/getTests");
-//         console.log(error);
-//     }
-// };
+export const getSubmissions = async (req, res) => {
+    const { id } = req.params;
+    try {
+        let submissions = await SubmissionModel.find({ problem: id }).exec();
+        for (let sub of submissions) {
+            sub.code = "";
+        }
+        res.status(200).json({ message: "成功", type: "success", payload: submissions });
+    } catch (error) {
+        res.status(404).json({ message: "發生錯誤", type: "error" });
+        console.log("ERROR at controllers/tests.js/getTests");
+        console.log(error);
+    }
+};
 export const postSubmission = async (req, res) => {
     const submission = req.body;
     const { id } = req.params;
@@ -22,6 +27,7 @@ export const postSubmission = async (req, res) => {
     const newSub = new SubmissionModel({
         ...submission,
         creator: req.userId,
+        problem: id,
         createdAt: new Date().toISOString(),
     });
 
@@ -39,6 +45,15 @@ export const postSubmission = async (req, res) => {
             res.status(404).json({ message: "找不到對應的題目", type: "error" });
             return;
         }
+        // 找到使用者
+        const user = await UserModel.findById(req.userId);
+        if (!user) {
+            console.log(`Didn't find user`);
+            res.status(404).json({ message: "找不到對應的題目", type: "error" });
+            return;
+        }
+        newSub.firstName = user.firstName;
+        newSub.lastName = user.lastName;
 
         const result = await singleSubmission(newSub.code, problem.judge);
 
@@ -53,21 +68,18 @@ export const postSubmission = async (req, res) => {
     }
 };
 
-export const deleteTest = async (req, res) => {
+export const deleteSubmission = async (req, res) => {
     const { id } = req.params;
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(404).json({ message: "找不到該繳交紀錄", type: "error" });
+            return;
+        }
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).send(`No test with id: ${id}`);
-        return;
+        await SubmissionModel.findByIdAndRemove(id);
+
+        res.status(200).json({ message: "成功刪除測試結果", type: "warning" });
+    } catch (error) {
+        res.status(200).json({ message: "發生錯誤", type: "error" });
     }
-
-    if (req.userType !== USER.ADMIN) {
-        console.log("NOT ADMIN");
-        res.status(404).send("Not admin");
-        return;
-    }
-
-    await TestMessage.findByIdAndRemove(id);
-
-    res.json({ message: "成功刪除測試結果" });
 };

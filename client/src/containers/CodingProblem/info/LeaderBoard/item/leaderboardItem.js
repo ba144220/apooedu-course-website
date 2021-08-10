@@ -20,7 +20,7 @@ const LeaderboardItem = ({ row, index }) => {
                     <Avatar className={classes.avatar}>{index + 1}</Avatar>
                 </TableCell>
                 <TableCell align="center">{row.lastName + row.firstName}</TableCell>
-                <TableCell align="center">{row.exeTime.toString()}</TableCell>
+                <TableCell align="center">{row.exeTime * 1000}</TableCell>
                 <TableCell align="center">{<StatusChip status={row.status} />}</TableCell>
                 <TableCell align="center">
                     <Typography color="textSecondary" style={{ whiteSpace: "pre-wrap" }}>

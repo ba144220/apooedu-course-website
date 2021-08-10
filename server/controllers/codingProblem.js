@@ -5,7 +5,13 @@ import { USER } from "../constants/constants.js";
 export const getCodingProblems = async (req, res) => {
     try {
         const codingProblems = await CodingProblemModel.find();
-        res.status(200).json(codingProblems);
+        const lightProblems = codingProblems.map((prob) => ({
+            title: prob.title,
+            difficulty: prob.difficulty,
+            _id: prob._id,
+        }));
+
+        res.status(200).json(lightProblems);
     } catch (error) {
         res.status(404).json({ message: "發生錯誤" });
         console.log(error);
@@ -18,8 +24,10 @@ export const getCodingProblem = async (req, res) => {
         return;
     }
     try {
-        const codingProblems = await CodingProblemModel.findById(id);
-        res.status(200).json(codingProblems);
+        const prob = await CodingProblemModel.findById(id);
+
+        prob.testData = "";
+        res.status(200).json(prob);
     } catch (error) {
         res.status(404).json({ message: "發生錯誤" });
         console.log(error);
@@ -36,10 +44,11 @@ export const createCodingProblem = async (req, res) => {
 
     try {
         await newCodingProblem.save();
-        res.status(201).json(newCodingProblem);
+        console.log("成功新增程式題目");
+        res.status(201).json({ message: "成功上傳", type: "success" });
     } catch (error) {
-        res.status(409).json({ message: "發生錯誤" });
         console.log(error);
+        res.status(409).json({ message: "發生錯誤", type: "error" });
     }
 };
 
@@ -51,13 +60,25 @@ export const deleteCodingProblem = async (req, res) => {
         return;
     }
 
-    if (req.userType !== USER.ADMIN) {
-        console.log("NOT ADMIN");
-        res.status(404).send("Not admin");
-        return;
-    }
-
     await CodingProblemModel.findByIdAndRemove(id);
+    console.log("成功刪除題目");
+    res.status(200).json({ message: "成功刪除題目", type: "success" });
+};
 
-    res.status(200).json({ message: "成功刪除測試結果" });
+export const updateCodingProblem = async (req, res) => {
+    const { id } = req.params;
+    const { title, judge, template, difficulty, markdown, testData } = req.body;
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ message: "找不到對應的id", type: "error" });
+        }
+
+        const updatedProblem = { title, judge, template, difficulty, markdown, testData, _id: id };
+
+        await CodingProblemModel.findByIdAndUpdate(id, updatedProblem, { new: true });
+        console.log("成功更新題目");
+        res.status(200).json({ message: "成功更新題目", type: "success" });
+    } catch (error) {
+        res.status(200).json({ message: "發生錯誤", type: "error" });
+    }
 };

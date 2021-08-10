@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeProvider, Button, Paper, Container } from "@material-ui/core";
+import { ThemeProvider, Button } from "@material-ui/core";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import theme from "./theme";
@@ -19,12 +19,6 @@ const App = () => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/auth" component={Auth} />
-                    <Route exact path="/test">
-                        <CreateCodingProblem />
-                        <Button color="secondary" variant="outlined" onClick={() => console.log()}>
-                            TEST
-                        </Button>
-                    </Route>
 
                     <Layout>
                         <Switch>
@@ -33,6 +27,9 @@ const App = () => {
                             <Route exact path="/coding-problems" component={CodingProblems} />
                             <Route path="/coding-problem" component={CodingProblem} />
                             <Route exact path="/coding-contests" component={CodingContests} />
+                            <Route path="/test">
+                                <CreateCodingProblem />
+                            </Route>
                         </Switch>
                     </Layout>
                 </Switch>

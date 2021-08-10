@@ -3,10 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Info from "./info/info";
-import { Container, Fade, Grow } from "@material-ui/core";
+import { Container, Fade } from "@material-ui/core";
 import { useLocation } from "react-router";
 
-import MarkdownDisplay from "../../components/markdownDisplay";
 import Editor from "./editor/editor";
 import { getCodingProblem } from "../../actions/codingProblems";
 

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router";
 import { postSubmission } from "../../../actions/submission";
 import CodeEditor from "../../../components/codeEditor";
+import CustomizedSnackbar from "../../../components/snackbar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,15 +51,20 @@ const Editor = ({ problem }) => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
     const [code, setCode] = useState("");
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [msgData, setMsgData] = useState("");
+    const [disabled, setDisabled] = useState(false);
+
     const handleSubmit = async () => {
+        setDisabled(true);
         const id = location.pathname.split("/").reverse()[0];
         const codeData = {
-            firstName: user.firstName,
-            lastName: user.lastName,
             code: code,
         };
         const result = await postSubmission(id, codeData);
-        console.log(result);
+        setMsgData(result);
+        setSnackbarOpen(true);
+        setDisabled(false);
     };
 
     return (
@@ -87,13 +93,14 @@ const Editor = ({ problem }) => {
                 <Button
                     variant="contained"
                     color="secondary"
-                    disabled={!user}
+                    disabled={!user || disabled}
                     className={classes.submit}
                     onClick={handleSubmit}
                 >
                     提交程式碼
                 </Button>
             </div>
+            <CustomizedSnackbar open={snackbarOpen} setOpen={setSnackbarOpen} msgData={msgData} />
         </div>
     );
 };

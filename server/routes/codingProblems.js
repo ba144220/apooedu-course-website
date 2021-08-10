@@ -4,15 +4,18 @@ import {
     getCodingProblem,
     createCodingProblem,
     deleteCodingProblem,
+    updateCodingProblem,
 } from "../controllers/codingProblem.js";
-import auth from "../middleware/auth.js";
+import userAuth from "../middleware/userAuth.js";
+import adminAuth from "../middleware/adminAuth.js";
 
 const router = express.Router();
 
 router.get("/", getCodingProblems);
 router.get("/:id", getCodingProblem);
-router.post("/", auth, createCodingProblem);
+router.post("/", [userAuth, adminAuth], createCodingProblem);
 
-router.delete("/:id", auth, deleteCodingProblem);
+router.delete("/:id", [userAuth, adminAuth], deleteCodingProblem);
+router.patch("/:id", [userAuth, adminAuth], updateCodingProblem);
 
 export default router;

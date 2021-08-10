@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
-import { green } from "@material-ui/core/colors";
 import MarkdownDisplay from "../../../components/markdownDisplay";
-import { Paper } from "@material-ui/core";
+import { Button, Paper } from "@material-ui/core";
 import Leaderboard from "./LeaderBoard/Leaderboard";
 import SubmitResults from "./SubmitResults/SubmitResults";
+import { useHistory, useLocation } from "react-router";
+import { deleteCodingProblem } from "../../../actions/codingProblems";
 
 const AntTabs = withStyles((theme) => ({
     root: {
@@ -143,15 +144,39 @@ const useStyles = makeStyles((theme) => ({
         bottom: "0px",
         left: "0px",
         right: "0px",
+
+        display: "flex",
+
+        //justifyContent: "center",
+        alignContent: "center",
+    },
+    submit: {
+        margin: "auto",
+        marginRight: theme.spacing(2),
+        marginLeft: theme.spacing(2),
+        //backgroundColor: theme.palette.secondary.deepDark,
     },
 }));
 
 export default function Info({ problem }) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const history = useHistory();
+    const location = useLocation();
+    const [value, setValue] = useState(0);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+    };
+
+    const handleSubmit = () => {
+        const id = location.pathname.split("/").reverse()[0];
+        history.push(`/test/${id}`);
+    };
+    const handleDelete = () => {
+        const id = location.pathname.split("/").reverse()[0];
+        deleteCodingProblem(id);
+        history.push("/");
     };
 
     return (
@@ -213,7 +238,28 @@ export default function Info({ problem }) {
                     </TabPanel>
                 </div>
             </div>
-            <div className={classes.footer}></div>
+            <div className={classes.footer}>
+                {user?.result?.userType === "ADMIN" ? (
+                    <>
+                        <Button
+                            variant="outlined"
+                            color="secondary"
+                            className={classes.submit}
+                            onClick={handleSubmit}
+                        >
+                            修改題目
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.submit}
+                            onClick={handleDelete}
+                        >
+                            刪除
+                        </Button>
+                    </>
+                ) : null}
+            </div>
         </div>
     );
 }
