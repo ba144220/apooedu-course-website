@@ -9,7 +9,7 @@ import cheerio from "cheerio";
 import UserModel from "../models/userModel.js";
 import dateString from "../utils/dateString.js";
 
-import USER from "../constants/constants.js";
+import { USER } from "../constants/constants.js";
 
 const readFile = promisify(fs.readFile);
 
