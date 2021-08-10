@@ -12,13 +12,14 @@ import { Container, Grow } from "@material-ui/core";
 
 import HighlightOffRoundedIcon from "@material-ui/icons/HighlightOffRounded";
 import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
+import ArrowDownwardRoundedIcon from "@material-ui/icons/ArrowDownwardRounded";
 
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import { useHistory } from "react-router";
 
 import { USER } from "../../constants/constants";
-import { deleteUser, getUsers, upgradeUser } from "../../actions/user";
+import { deleteUser, downgradeUser, getUsers, upgradeUser } from "../../actions/user";
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -86,7 +87,7 @@ export default function BasicTable() {
                                                     variant="footer"
                                                     className={classes.edit}
                                                 >
-                                                    {row.userType !== USER.ADMIN && (
+                                                    {row.userType !== USER.ADMIN ? (
                                                         <>
                                                             <IconButton
                                                                 onClick={() => {
@@ -116,6 +117,25 @@ export default function BasicTable() {
                                                             >
                                                                 <HighlightOffRoundedIcon />
                                                             </IconButton>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            {user?.result?.email !== row.email && (
+                                                                <IconButton
+                                                                    onClick={() => {
+                                                                        if (
+                                                                            window.confirm(
+                                                                                "確定要降級該管理者？"
+                                                                            )
+                                                                        ) {
+                                                                            // They clicked Yes
+                                                                            downgradeUser(row._id);
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    <ArrowDownwardRoundedIcon />
+                                                                </IconButton>
+                                                            )}
                                                         </>
                                                     )}
                                                 </TableCell>

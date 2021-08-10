@@ -7,6 +7,7 @@ import {
     getUsers,
     deleteUser,
     upgradeUser,
+    downgradeUser,
 } from "../controllers/user.js";
 import userAuth from "../middleware/userAuth.js";
 import adminAuth from "../middleware/adminAuth.js";
@@ -18,6 +19,7 @@ router.get("/confirmation/:token", accountConfirmation);
 
 router.get("/", [userAuth, adminAuth], getUsers);
 router.delete("/:id", [userAuth, adminAuth], deleteUser);
-router.patch("/:id", [userAuth, adminAuth], upgradeUser);
+router.patch("/upgrade/:id", [userAuth, adminAuth], upgradeUser);
+router.patch("/downgrade/:id", [userAuth, adminAuth], downgradeUser);
 
 export default router;

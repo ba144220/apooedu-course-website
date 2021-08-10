@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import fs from "fs";
 import { promisify } from "util";
+import mongoose from "mongoose";
 import cheerio from "cheerio";
 
 import UserModel from "../models/userModel.js";
@@ -206,9 +207,28 @@ export const upgradeUser = async (req, res) => {
         const updatedUser = { userType: USER.ADMIN, _id: id };
 
         await UserModel.findByIdAndUpdate(id, updatedUser, { new: true });
-        console.log("成功更新題目");
-        res.status(200).json({ message: "成功更新題目", type: "success" });
+        console.log("成功更新使用者權限");
+        res.status(200).json({ message: "成功更新使用者權限", type: "success" });
     } catch (error) {
+        console.log(error);
+        res.status(404).json({ message: "發生錯誤", type: "error" });
+    }
+};
+
+export const downgradeUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ message: "找不到對應的id", type: "error" });
+        }
+
+        const updatedUser = { userType: USER.USER, _id: id };
+
+        await UserModel.findByIdAndUpdate(id, updatedUser, { new: true });
+        console.log("成功降級使用者權限");
+        res.status(200).json({ message: "成功降級使用者權限", type: "success" });
+    } catch (error) {
+        console.log(error);
         res.status(404).json({ message: "發生錯誤", type: "error" });
     }
 };
