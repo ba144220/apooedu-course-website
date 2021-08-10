@@ -11,7 +11,7 @@ import dateString from "../utils/dateString.js";
 
 const readFile = promisify(fs.readFile);
 
-const TOKEN_EXPIRES_IN = "2h";
+const TOKEN_EXPIRES_IN = "7h";
 
 dotenv.config();
 

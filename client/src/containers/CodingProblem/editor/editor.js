@@ -7,13 +7,13 @@ import CustomizedSnackbar from "../../../components/snackbar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: "red",
+        backgroundColor: "transparent",
         height: "100%",
         position: "relative",
         width: "100%",
     },
     body: {
-        backgroundColor: "pink",
+        backgroundColor: "transparent",
         position: "absolute",
         top: "0px",
         bottom: theme.mixins.toolbar.minHeight,
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         right: "0px",
     },
     footer: {
-        backgroundColor: "purple",
+        backgroundColor: "transparent",
         height: theme.mixins.toolbar.minHeight,
         position: "absolute",
         bottom: "0px",

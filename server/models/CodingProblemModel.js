@@ -9,7 +9,7 @@ const problemSchema = mongoose.Schema({
     },
     title: { type: String, required: true },
     difficulty: { type: String, enum: DIFFICULTY, default: DIFFICULTY.MEDIUM },
-    markdown: { type: String, required: true },
+    markdown: { type: String },
 
     template: { type: String },
     judge: { type: String },

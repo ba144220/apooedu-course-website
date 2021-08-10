@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up("sm")]: {
             paddingLeft: `5px`,
         },
-        //backgroundColor: theme.palette.background.default,
-        backgroundColor: "green",
+        backgroundColor: theme.palette.background.default,
+        //backgroundColor: "green",
     },
 
     paper: {
@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         borderRadius: "0px",
         color: theme.palette.text.secondary,
-        //backgroundColor: theme.palette.background.default,
-        backgroundColor: "blue",
+        backgroundColor: theme.palette.background.default,
+        //backgroundColor: "blue",
     },
 }));
 

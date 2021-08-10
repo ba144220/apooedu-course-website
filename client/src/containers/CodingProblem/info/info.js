@@ -100,12 +100,12 @@ const useStyles = makeStyles((theme) => ({
         height: "100%",
     },
     root: {
-        backgroundColor: "yellow",
+        backgroundColor: "transparent",
         height: "100%",
         position: "relative",
     },
     tabPanel: {
-        backgroundColor: "green",
+        backgroundColor: "transparent",
         height: `calc(100% + -${theme.mixins.secondaryToolbar.minHeight} )`,
         borderRight: `1px solid ${theme.palette.border}`,
         borderBottom: `1px solid ${theme.palette.border}`,
@@ -130,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
         borderBottom: `1px solid ${theme.palette.border}`,
     },
     body: {
-        backgroundColor: "pink",
+        backgroundColor: "transparent",
         position: "absolute",
         top: "0px",
         bottom: theme.mixins.toolbar.minHeight,
@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
         right: "0px",
     },
     footer: {
-        backgroundColor: "purple",
+        backgroundColor: "transparent",
         height: theme.mixins.toolbar.minHeight,
         position: "absolute",
         bottom: "0px",

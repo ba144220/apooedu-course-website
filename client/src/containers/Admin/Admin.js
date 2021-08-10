@@ -58,13 +58,15 @@ export default function BasicTable() {
                         <TableContainer component={Paper}>
                             <Table className={classes.table} aria-label="simple table">
                                 <colgroup>
-                                    <col width="40%" />
-                                    <col width="40%" />
-                                    <col width="20%" />
+                                    <col width="30%" />
+                                    <col width="30%" />
+                                    <col width="30%" />
+                                    <col width="10%" />
                                 </colgroup>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell align="center">姓名</TableCell>
+                                        <TableCell align="center">權限</TableCell>
                                         <TableCell align="center">電子郵件</TableCell>
                                         <TableCell align="center">編輯</TableCell>
                                     </TableRow>
@@ -72,23 +74,26 @@ export default function BasicTable() {
                                 <TableBody>
                                     {users ? (
                                         users.map((row) => (
-                                            <TableRow key={row.title} className={classes.tableRow}>
+                                            <TableRow key={row.email} className={classes.tableRow}>
                                                 <TableCell align="center">
                                                     {row.lastName + row.firstName}
                                                 </TableCell>
+                                                <TableCell align="center">{row.userType}</TableCell>
                                                 <TableCell align="center">{row.email}</TableCell>
                                                 <TableCell
                                                     align="center"
                                                     variant="footer"
                                                     className={classes.edit}
                                                 >
-                                                    <IconButton
-                                                        onClick={() => {
-                                                            deleteUser(row._id);
-                                                        }}
-                                                    >
-                                                        <HighlightOffRoundedIcon />
-                                                    </IconButton>
+                                                    {row.userType !== USER.ADMIN && (
+                                                        <IconButton
+                                                            onClick={() => {
+                                                                deleteUser(row._id);
+                                                            }}
+                                                        >
+                                                            <HighlightOffRoundedIcon />
+                                                        </IconButton>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         ))

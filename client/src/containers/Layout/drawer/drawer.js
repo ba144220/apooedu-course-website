@@ -46,12 +46,13 @@ export default function TemporaryDrawer({ open, setOpen }) {
                     <Divider />
 
                     <List>
-                        {menuItems.map(({ text, path }) => (
+                        {menuItems.map(({ text, path, active }) => (
                             <ListItem
                                 button
                                 key={path}
                                 onClick={() => history.push(path)}
                                 className={classes.btn}
+                                disabled={!active}
                             >
                                 <ListItemText primary={text} />
                             </ListItem>

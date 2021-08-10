@@ -61,6 +61,7 @@ const CreateCodingProblem = () => {
                 setJudge(data.judge);
                 setMd(data.markdown);
                 setDiff(data.difficulty);
+                setTemp(data.template);
 
                 setIsEdit(true);
             } catch (error) {

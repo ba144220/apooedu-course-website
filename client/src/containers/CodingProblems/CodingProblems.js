@@ -7,7 +7,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { Button, Container, Grow } from "@material-ui/core";
+import { Button, Container, Grow, Typography } from "@material-ui/core";
 
 import Skeleton from "@material-ui/lab/Skeleton";
 
@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
                 color: theme.palette.secondary.dark,
             },
             color: theme.palette.primary.light,
+            backgroundColor: "#fff8e1",
             cursor: "pointer",
         },
         "& td": {
@@ -52,6 +53,17 @@ export default function BasicTable() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
     const [problems, setProblems] = useState(null);
+
+    const diffGen = (diff) => {
+        switch (diff) {
+            case "EASY":
+                return <Typography style={{ color: "green" }}>EASY</Typography>;
+            case "MEDIUM":
+                return <Typography style={{ color: "orange" }}>MEDIUM</Typography>;
+            case "HARD":
+                return <Typography style={{ color: "red" }}>HARD</Typography>;
+        }
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -86,7 +98,9 @@ export default function BasicTable() {
                                         className={classes.tableRow}
                                     >
                                         <TableCell align="center">{row.title}</TableCell>
-                                        <TableCell align="center">{row.difficulty}</TableCell>
+                                        <TableCell align="center">
+                                            {diffGen(row.difficulty)}
+                                        </TableCell>
                                     </TableRow>
                                 ))
                             ) : (
