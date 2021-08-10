@@ -19,6 +19,8 @@ import { updateCodingProblem } from "../../../actions/codingProblems";
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        width: "100%",
+        maxHeight: `calc(100% - ${theme.mixins.toolbar.minHeight})`,
         overflow: "scroll",
     },
     paper: {
