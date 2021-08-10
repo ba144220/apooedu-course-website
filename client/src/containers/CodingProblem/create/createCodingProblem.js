@@ -66,14 +66,14 @@ const CreateCodingProblem = () => {
             } catch (error) {
                 console.log(error);
                 alert("找不到題目");
-                history.push("/test/create");
+                history.push("/coding-problem-editor/create");
             }
         }
         //console.log(location.pathname.split("/").reverse()[0]);
     }, []);
 
     const [title, setTitle] = useState("");
-    const [diff, setDiff] = useState("");
+    const [diff, setDiff] = useState("MEDIUM");
     const [md, setMd] = useState("");
     const [temp, setTemp] = useState("");
     const [judge, setJudge] = useState("");

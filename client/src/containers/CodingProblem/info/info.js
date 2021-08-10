@@ -171,12 +171,12 @@ export default function Info({ problem }) {
 
     const handleSubmit = () => {
         const id = location.pathname.split("/").reverse()[0];
-        history.push(`/test/${id}`);
+        history.push(`/coding-problem-editor/${id}`);
     };
     const handleDelete = () => {
         const id = location.pathname.split("/").reverse()[0];
         deleteCodingProblem(id);
-        history.push("/");
+        history.push("/coding-problems");
     };
 
     return (

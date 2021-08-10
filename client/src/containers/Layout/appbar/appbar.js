@@ -96,7 +96,7 @@ const Appbar = (props) => {
                                     className={classes.textBtn}
                                     key={text}
                                     //color="primary"
-                                    //disabled={!active}
+                                    disabled={!active}
                                 >
                                     {text}
                                 </Button>

@@ -27,7 +27,7 @@ const App = () => {
                             <Route exact path="/coding-problems" component={CodingProblems} />
                             <Route path="/coding-problem" component={CodingProblem} />
                             <Route exact path="/coding-contests" component={CodingContests} />
-                            <Route path="/test">
+                            <Route path="/coding-problem-editor">
                                 <CreateCodingProblem />
                             </Route>
                         </Switch>
