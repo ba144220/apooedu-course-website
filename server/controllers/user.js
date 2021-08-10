@@ -9,6 +9,8 @@ import cheerio from "cheerio";
 import UserModel from "../models/userModel.js";
 import dateString from "../utils/dateString.js";
 
+import USER from "../constants/constants.js";
+
 const readFile = promisify(fs.readFile);
 
 const TOKEN_EXPIRES_IN = "7h";
@@ -191,5 +193,22 @@ export const deleteUser = async (req, res) => {
     } catch (error) {
         console.log("getUser ERROR");
         res.status(500).json({ message: "發生錯誤", type: "error" });
+    }
+};
+
+export const upgradeUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ message: "找不到對應的id", type: "error" });
+        }
+
+        const updatedUser = { userType: USER.ADMIN, _id: id };
+
+        await UserModel.findByIdAndUpdate(id, updatedUser, { new: true });
+        console.log("成功更新題目");
+        res.status(200).json({ message: "成功更新題目", type: "success" });
+    } catch (error) {
+        res.status(404).json({ message: "發生錯誤", type: "error" });
     }
 };

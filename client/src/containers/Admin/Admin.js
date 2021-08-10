@@ -11,13 +11,14 @@ import IconButton from "@material-ui/core/IconButton";
 import { Container, Grow } from "@material-ui/core";
 
 import HighlightOffRoundedIcon from "@material-ui/icons/HighlightOffRounded";
+import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
 
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import { useHistory } from "react-router";
 
 import { USER } from "../../constants/constants";
-import { deleteUser, getUsers } from "../../actions/user";
+import { deleteUser, getUsers, upgradeUser } from "../../actions/user";
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -86,13 +87,36 @@ export default function BasicTable() {
                                                     className={classes.edit}
                                                 >
                                                     {row.userType !== USER.ADMIN && (
-                                                        <IconButton
-                                                            onClick={() => {
-                                                                deleteUser(row._id);
-                                                            }}
-                                                        >
-                                                            <HighlightOffRoundedIcon />
-                                                        </IconButton>
+                                                        <>
+                                                            <IconButton
+                                                                onClick={() => {
+                                                                    if (
+                                                                        window.confirm(
+                                                                            "確定要升級該使用者的權限？"
+                                                                        )
+                                                                    ) {
+                                                                        // They clicked Yes
+                                                                        upgradeUser(row._id);
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <SupervisorAccountRoundedIcon />
+                                                            </IconButton>
+                                                            <IconButton
+                                                                onClick={() => {
+                                                                    if (
+                                                                        window.confirm(
+                                                                            "確定要刪除該使用者？"
+                                                                        )
+                                                                    ) {
+                                                                        // They clicked Yes
+                                                                        deleteUser(row._id);
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <HighlightOffRoundedIcon />
+                                                            </IconButton>
+                                                        </>
                                                     )}
                                                 </TableCell>
                                             </TableRow>

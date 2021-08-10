@@ -24,3 +24,16 @@ export const deleteUser = async (user_id) => {
         }
     }
 };
+
+export const upgradeUser = async (user_id) => {
+    try {
+        const { data } = await api.upgradeUser(user_id);
+        alert("成功升級使用者為管理員");
+        return data;
+    } catch (error) {
+        if (error?.response?.data?.message) {
+            console.log(error.response.data);
+            return error.response.data;
+        }
+    }
+};

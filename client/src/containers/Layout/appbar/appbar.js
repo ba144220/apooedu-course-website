@@ -69,7 +69,11 @@ const Appbar = (props) => {
 
     return (
         <>
-            <TemporaryDrawer open={openDrawer} setOpen={setOpenDrawer}></TemporaryDrawer>
+            <TemporaryDrawer
+                open={openDrawer}
+                setOpen={setOpenDrawer}
+                user={user}
+            ></TemporaryDrawer>
             <AppBar className={classes.appbar} elevation={0}>
                 <Toolbar className={classes.toolbar}>
                     {isSmallScreen && (
@@ -88,18 +92,24 @@ const Appbar = (props) => {
 
                     {!isSmallScreen ? (
                         <div style={{ margin: "auto", marginLeft: "15px" }}>
-                            {menuItems.map(({ text, path, active }) => (
-                                <Button
-                                    variant="text"
-                                    onClick={() => history.push(path)}
-                                    disableRipple
-                                    className={classes.textBtn}
-                                    key={text}
-                                    //color="primary"
-                                    disabled={!active}
-                                >
-                                    {text}
-                                </Button>
+                            {menuItems.map(({ text, path, active, admin }) => (
+                                <>
+                                    {!admin || user?.result?.userType === USER.ADMIN ? (
+                                        <Button
+                                            variant="text"
+                                            onClick={() => history.push(path)}
+                                            disableRipple
+                                            className={classes.textBtn}
+                                            key={text}
+                                            //color="primary"
+                                            disabled={!active}
+                                        >
+                                            {text}
+                                        </Button>
+                                    ) : (
+                                        <div></div>
+                                    )}
+                                </>
                             ))}
                         </div>
                     ) : (

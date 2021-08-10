@@ -79,6 +79,6 @@ export const updateCodingProblem = async (req, res) => {
         console.log("成功更新題目");
         res.status(200).json({ message: "成功更新題目", type: "success" });
     } catch (error) {
-        res.status(200).json({ message: "發生錯誤", type: "error" });
+        res.status(404).json({ message: "發生錯誤", type: "error" });
     }
 };

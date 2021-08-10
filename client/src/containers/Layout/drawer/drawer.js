@@ -9,6 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { menuItems } from "../menuItems";
 import { useHistory } from "react-router";
 import ApooEduLogo from "../../../components/apooeduLogo";
+import { USER } from "../../../constants/constants";
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -27,10 +28,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function TemporaryDrawer({ open, setOpen }) {
+export default function TemporaryDrawer({ open, setOpen, user }) {
     const classes = useStyles();
     const history = useHistory();
-
     return (
         <React.Fragment>
             <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
@@ -46,16 +46,22 @@ export default function TemporaryDrawer({ open, setOpen }) {
                     <Divider />
 
                     <List>
-                        {menuItems.map(({ text, path, active }) => (
-                            <ListItem
-                                button
-                                key={path}
-                                onClick={() => history.push(path)}
-                                className={classes.btn}
-                                disabled={!active}
-                            >
-                                <ListItemText primary={text} />
-                            </ListItem>
+                        {menuItems.map(({ text, path, active, admin }) => (
+                            <>
+                                {!admin || user?.result?.userType === USER.ADMIN ? (
+                                    <ListItem
+                                        button
+                                        key={path}
+                                        onClick={() => history.push(path)}
+                                        className={classes.btn}
+                                        disabled={!active}
+                                    >
+                                        <ListItemText primary={text} />
+                                    </ListItem>
+                                ) : (
+                                    <div></div>
+                                )}
+                            </>
                         ))}
                     </List>
                 </div>
