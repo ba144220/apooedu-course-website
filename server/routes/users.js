@@ -10,6 +10,6 @@ router.post("/signup", signup);
 router.get("/confirmation/:token", accountConfirmation);
 
 router.get("/", [userAuth, adminAuth], getUsers);
-router.get("/:id", [userAuth, adminAuth], deleteUser);
+router.delete("/:id", [userAuth, adminAuth], deleteUser);
 
 export default router;

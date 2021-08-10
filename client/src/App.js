@@ -12,6 +12,7 @@ import CodingProblem from "./containers/CodingProblem/CodingProblem";
 import CodingContests from "./containers/CodingContests/CodingContests";
 import CreateCodingProblem from "./containers/CodingProblem/create/createCodingProblem";
 import CodingProblems from "./containers/CodingProblems/CodingProblems";
+import Admin from "./containers/Admin/Admin";
 
 const App = () => {
     return (
@@ -29,6 +30,9 @@ const App = () => {
                             <Route exact path="/coding-contests" component={CodingContests} />
                             <Route path="/coding-problem-editor">
                                 <CreateCodingProblem />
+                            </Route>
+                            <Route path="/admin">
+                                <Admin />
                             </Route>
                         </Switch>
                     </Layout>
